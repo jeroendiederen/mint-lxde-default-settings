@@ -141,3 +141,60 @@ The original LXPanel configuration can be restored from:
 `etc/skel/.config/lxpanel/Mint-LXDE/panels/panel`
 
 The GTK widget theme must be restored separately through LXAppearance if it was changed during testing.
+
+## Experiment 2: LXPanel taskbar button appearance
+
+### Objective
+
+Determine how LXPanel controls the appearance of taskbar buttons and identify the configuration setting responsible for their raised or flat appearance.
+
+### Environment
+
+- Desktop session: Mint-LXDE
+- Panel: LXPanel
+- Configuration file: `~/.config/lxpanel/Mint-LXDE/panels/panel`
+- Plugin: `taskbar`
+
+### Original configuration
+
+```ini
+FlatButton=0
+```
+
+The taskbar displayed raised, light-grey buttons.
+
+### Experiment
+
+In Task Bar (Window List) preferences, the **Flat buttons** checkbox was enabled.
+
+The taskbar buttons immediately lost their raised appearance and blended into the panel background.
+
+After closing the preferences window, the configuration contained:
+
+```ini
+FlatButton=-1
+```
+
+### Restoration
+
+The **Flat buttons** checkbox was disabled again.
+
+After closing preferences, the configuration returned to:
+
+```ini
+FlatButton=0
+```
+
+### Confirmed findings
+
+1. `FlatButton=0` produces raised taskbar buttons.
+2. `FlatButton=-1` produces flat taskbar buttons.
+3. The graphical checkbox controls this configuration setting.
+4. Closing Task Bar preferences saved the changed value during the experiment.
+5. The original appearance was restored successfully.
+
+### Unresolved questions
+
+- How do flat taskbar buttons appear against a dark panel background?
+- Does the GTK widget theme influence the colors of raised taskbar buttons?
+- Can taskbar button colors be customized independently of the GTK theme?
