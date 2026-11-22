@@ -198,3 +198,212 @@ FlatButton=0
 - How do flat taskbar buttons appear against a dark panel background?
 - Does the GTK widget theme influence the colors of raised taskbar buttons?
 - Can taskbar button colors be customized independently of the GTK theme?
+
+## Experiment 3: Dark LXPanel and volume icon appearance
+
+### Objective
+
+Create a dark, flat LXPanel while preserving the lightweight Mint-LXDE desktop and ensuring that the volume icons remain clearly visible.
+
+### Environment
+
+- Desktop session: Mint-LXDE
+- Panel: LXPanel 0.11.1-3
+- Icon theme: Mint-X 1.5.5
+- Volume plugin: `volumealsa`
+- Test environment: PowerPC Debian QEMU virtual machine
+- Package: `mint-lxde-default-settings` 12.0.14
+
+### Original configuration
+
+The original panel used the system theme background, black text and raised taskbar buttons.
+
+```ini
+transparent=0
+tintcolor=#000000
+alpha=0
+usefontcolor=1
+fontcolor=#000000
+background=0
+FlatButton=0
+```
+
+### Dark panel configuration
+
+The following settings were established through Experiments 1 and 2 and subsequently tested together:
+
+```ini
+transparent=1
+tintcolor=#303030
+alpha=255
+usefontcolor=1
+fontcolor=#ffffff
+background=0
+FlatButton=-1
+```
+
+The panel displayed a fully opaque dark-grey background with white text and flat taskbar buttons.
+
+The panel height remained 24 pixels, with an icon size of 22 pixels.
+
+### Volume icon problem
+
+The original Mint-X volume icons were dark and difficult to distinguish against the new dark-grey panel.
+
+LXPanel's `volumealsa` plugin requests the following icon names:
+
+- `audio-volume-high-panel`
+- `audio-volume-medium-panel`
+- `audio-volume-low-panel`
+- `audio-volume-muted-panel`
+
+The plugin uses GTK icon-theme lookup functionality through LXPanel.
+
+A newer Mint-X icon package (1.7.5) was inspected, but its corresponding symbolic SVG icons were identical to those in Mint-X 1.5.5.
+
+### Custom MintPPC-Panel icon theme
+
+A small custom icon theme was created to override only the four volume icons.
+
+Theme location in the Debian package:
+
+`usr/share/icons/MintPPC-Panel/`
+
+The `index.theme` file contains:
+
+```ini
+[Icon Theme]
+Name=MintPPC Panel
+Comment=Experimental light panel icons for MintPPC
+Inherits=Mint-X
+Directories=status/22
+
+[status/22]
+Size=22
+Context=Status
+Type=Fixed
+```
+
+Because the theme inherits from Mint-X, icons not supplied by MintPPC-Panel continue to use the inherited icon theme.
+
+### Generating the icons with ImageMagick
+
+The four icons were generated from the existing Mint-X symbolic SVG files.
+
+The original files are located in:
+
+`/usr/share/icons/Mint-X/status/scalable/`
+
+ImageMagick was used to render the SVGs at high resolution and then reduce them to the desired size.
+
+The working procedure was:
+
+```bash
+mkdir -p "$HOME/.local/share/icons/MintPPC-Panel/status/22"
+
+for level in high low medium muted; do
+    convert -background none -density 384 \
+        "/usr/share/icons/Mint-X/status/scalable/audio-volume-${level}-symbolic.svg" \
+        -filter Lanczos -resize 18x18 \
+        -gravity center -background none -extent 22x22 \
+        "$HOME/.local/share/icons/MintPPC-Panel/status/22/audio-volume-${level}-panel.png"
+done
+```
+
+The important steps are:
+
+1. Render the SVG at 384 DPI to obtain a high-resolution intermediate image.
+2. Downsample the image to 18×18 pixels using Lanczos filtering.
+3. Center the artwork on a transparent 22×22 pixel canvas.
+4. Save the resulting PNG using the icon name expected by LXPanel.
+
+This supersampling technique produced smoother edges than rendering the SVGs directly at their final small size.
+
+The transparent padding allowed the icons to appear comfortably within the 24-pixel-high panel.
+
+The final dimensions were verified with:
+
+```bash
+identify -format '%f: %wx%h\n' \
+    ~/.local/share/icons/MintPPC-Panel/status/22/*.png
+```
+
+All four PNG files measured 22×22 pixels.
+
+### Activating the icon theme
+
+In the PowerPC VM, the LXSession configuration was changed from:
+
+```ini
+sNet/IconThemeName=Mint-X
+```
+
+to:
+
+```ini
+sNet/IconThemeName=MintPPC-Panel
+```
+
+The GTK widget theme was left unchanged.
+
+The icon cache was regenerated and LXPanel restarted:
+
+```bash
+gtk-update-icon-cache -f ~/.local/share/icons/MintPPC-Panel
+lxpanelctl restart
+```
+
+The Debian package incorporates the icon-theme setting in:
+
+- `etc/xdg/lxsession/Mint-LXDE/desktop.conf`
+- `etc/skel/.config/lxsession/Mint-LXDE/desktop.conf`
+
+### Confirmed findings
+
+1. A dark-grey LXPanel background works with flat taskbar buttons and white panel text.
+2. The original Mint-X volume icons were difficult to see against the dark panel.
+3. LXPanel's volume plugin uses GTK icon-theme lookup for its volume icons.
+4. A custom icon theme can override the four volume icons while inheriting other icons from Mint-X.
+5. ImageMagick supersampling produced crisp, light-grey volume icons.
+6. The high, medium, low and muted volume states were visually tested successfully in the PowerPC VM.
+7. The custom icons displayed correctly within the existing 24-pixel-high panel.
+
+### Package integration
+
+The tested configuration was incorporated into the `mint-lxde-default-settings` source package.
+
+The custom icon theme is installed under:
+
+`/usr/share/icons/MintPPC-Panel/`
+
+The original Mint-X icon files remain untouched.
+
+The four derived PNG icons retain their GPL-3+ licensing and attribution to the Linux Mint project, as documented in `debian/copyright`.
+
+### Restoration
+
+To restore the original panel appearance, use:
+
+```ini
+transparent=0
+tintcolor=#000000
+alpha=0
+usefontcolor=1
+fontcolor=#000000
+background=0
+FlatButton=0
+```
+
+Restore the original icon-theme setting:
+
+```ini
+sNet/IconThemeName=Mint-X
+```
+
+Restart LXPanel or log out and back in to apply the restored configuration.
+
+### Remaining verification
+
+The individual settings and volume icons have been tested in the PowerPC VM.
+
+The complete updated Debian package still requires an installation test to verify that its system-wide icon theme and default LXPanel configuration work correctly together.

@@ -1,0 +1,10 @@
+[Icon Theme]
+Name=MintPPC Panel
+Comment=Experimental light panel icons for MintPPC
+Inherits=Mint-X
+Directories=status/22
+
+[status/22]
+Size=22
+Context=Status
+Type=Fixed

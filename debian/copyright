@@ -7,3 +7,19 @@ Copyright: Copyright 2009, Julien Lavergne <gilir@ubuntu.com>
 License: GPL-2+
  On Debian systems the full text of the GNU General Public License can be found
  in the `/usr/share/common-licenses/GPL-2' file.
+
+Files: usr/share/icons/MintPPC-Panel/status/22/*.png
+Copyright: 2010-2014 Clement Lefebvre <root@linuxmint.com>
+License: GPL-3+
+ These icons are derived from the Mint-X symbolic volume icons,
+ originally distributed by the Linux Mint project.
+ .
+ The original SVG icons were rendered using ImageMagick at 384 DPI,
+ resized to 18x18 pixels using Lanczos filtering, and centered on
+ transparent 22x22 pixel canvases.
+ .
+ Upstream source: https://github.com/linuxmint/mint-x-icons
+ .
+ On Debian systems, the complete text of the GNU General Public
+ License version 3 can be found in
+ /usr/share/common-licenses/GPL-3.
