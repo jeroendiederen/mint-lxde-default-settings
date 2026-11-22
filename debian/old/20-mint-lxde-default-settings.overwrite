@@ -1,0 +1,15 @@
+/usr/lib/linuxmint/mintSystem/adjustments/stepUserInfo.ui /usr/share/ubiquity/gtk/stepUserInfo.ui
+/usr/lib/linuxmint/mintSystem/adjustments/openbox-gnome.desktop /usr/share/xsessions/openbox-gnome.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/openbox-kde.desktop /usr/share/xsessions/openbox-kde.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/catfish.glade /usr/share/catfish/catfish.glade
+/usr/lib/linuxmint/mintSystem/adjustments/LanguageSelector.ui /usr/share/language-selector/data/LanguageSelector.ui
+/usr/lib/linuxmint/mintSystem/adjustments/xscreensaver-demo.glade2 /usr/share/xscreensaver/glade/xscreensaver-demo.glade2
+/usr/lib/linuxmint/mintSystem/adjustments/LxkeymapWindow.ui /usr/share/lxkeymap/ui/LxkeymapWindow.ui
+/usr/lib/linuxmint/mintSystem/adjustments/amdccclesu.desktop /usr/share/fglrx/amdccclesu.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/startupmanager.glade /usr/share/startupmanager/startupmanager.glade
+/usr/lib/linuxmint/mintSystem/adjustments/seahorse-keyserver-results.ui /usr/share/seahorse/ui/seahorse-keyserver-results.ui
+/usr/lib/linuxmint/mintSystem/adjustments/seahorse-key-manager.ui /usr/share/seahorse/ui/seahorse-key-manager.ui
+/usr/lib/linuxmint/mintSystem/adjustments/gedit-ui.xml /usr/share/gedit-2/ui/gedit-ui.xml
+/usr/lib/linuxmint/mintSystem/adjustments/simple-scan.ui /usr/share/simple-scan/simple-scan.ui
+/usr/lib/linuxmint/mintSystem/adjustments/jockey-gtk.ui /usr/share/jockey/jockey-gtk.ui
+/usr/lib/linuxmint/mintSystem/adjustments/gpm-prefs.ui /usr/share/gnome-power-manager/gpm-prefs.ui

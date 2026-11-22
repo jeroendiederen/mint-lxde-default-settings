@@ -1,0 +1,7 @@
+[Desktop Entry]
+# The names/descriptions should really be better
+Name=Mint-LXDE
+Comment=Linux Mint - From Freedom Came Elegance.
+Exec=/usr/bin/startmintlxde
+# Icon=
+Type=Application

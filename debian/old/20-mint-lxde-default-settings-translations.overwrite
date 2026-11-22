@@ -1,0 +1,12 @@
+/usr/lib/linuxmint/mintSystem/adjustments/gnome-power-preferences.desktop /usr/share/applications/gnome-power-preferences.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/ndisgtk.desktop /usr/share/applications/ndisgtk.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/shares.desktop /usr/share/applications/shares.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/users.desktop /usr/share/applications/users.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/time.desktop /usr/share/applications/time.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/nm-connection-editor.desktop /usr/share/applications/nm-connection-editor.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/manage-print-jobs.desktop /usr/share/applications/manage-print-jobs.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/system-config-printer.desktop /usr/share/applications/system-config-printer.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/jockey-gtk.desktop /usr/share/applications/jockey-gtk.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/seahorse.desktop /usr/share/applications/seahorse.desktop
+/usr/lib/linuxmint/mintSystem/adjustments/xscreensaver-properties.desktop /usr/share/applications/xscreensaver-properties.desktop
+

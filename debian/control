@@ -1,0 +1,11 @@
+Source: mint-lxde-default-settings
+Section: admin
+Priority: required
+Maintainer: Jeroen Diederen <jjhdiederen@zonnet.nl>
+Build-Depends: debhelper (>= 5.0.0)
+Standards-Version: 3.8.4
+
+Package: mint-lxde-default-settings
+Depends: pcmanfm, lxpanel, mint-artwork-lxde, gmrun, mint-artwork
+Architecture: all 
+Description: This Package contains the default system settings for Linux Mint LXDE Edition.
