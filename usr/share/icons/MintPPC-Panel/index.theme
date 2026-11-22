@@ -2,9 +2,14 @@
 Name=MintPPC Panel
 Comment=Experimental light panel icons for MintPPC
 Inherits=Mint-X
-Directories=status/22
+Directories=status/22,apps/22
 
 [status/22]
 Size=22
 Context=Status
+Type=Fixed
+
+[apps/22]
+Size=22
+Context=Applications
 Type=Fixed

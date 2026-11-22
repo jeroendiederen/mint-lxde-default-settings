@@ -407,3 +407,135 @@ Restart LXPanel or log out and back in to apply the restored configuration.
 The individual settings and volume icons have been tested in the PowerPC VM.
 
 The complete updated Debian package still requires an installation test to verify that its system-wide icon theme and default LXPanel configuration work correctly together.
+
+## Experiment 4: Modern NetworkManager Ethernet icons
+
+### Objective
+
+Replace the old NetworkManager Ethernet icons with modern, light-grey Mint-X symbolic icons that match the dark LXPanel and the custom volume icons introduced in Experiment 3.
+
+Maintain compatibility with the existing `nm-applet` implementation without modifying NetworkManager or the original system icon files.
+
+### Environment
+
+- PowerPC Debian virtual machine running MintPPC LXDE.
+- LXPanel with a 24-pixel-high dark-grey panel.
+- NetworkManager tray application (`nm-applet`).
+- Custom GTK icon theme: `MintPPC-Panel`, inheriting from `Mint-X`.
+- ImageMagick for SVG-to-PNG conversion.
+
+### Investigation
+
+The LXPanel configuration contains a `tray` plugin but no dedicated network-status plugin.
+
+The running `nm-applet` process was confirmed using:
+
+```bash
+pgrep -a nm-applet
+```
+
+The installed `nm-applet` binary references the legacy icon names `nm-device-wired` and `nm-no-connection`.
+
+The original `nm-device-wired` icon is provided by the `hicolor` icon theme and uses an older GNOME-style design.
+
+Mint-X provides modern symbolic alternatives:
+
+- `network-wired-symbolic.svg`
+- `network-wired-disconnected-symbolic.svg`
+
+These icons use light-grey shapes (`#bebebe` in the connected SVG) suitable for a dark panel.
+
+### Icon conversion
+
+The modern Mint-X symbolic icons were converted to PNG files using ImageMagick, following the same approach as the volume icons in Experiment 3.
+
+The images were resized to 18×18 pixels and centered on transparent 22×22 canvases.
+
+**Connected Ethernet:**
+
+```bash
+convert -background none -density 384 \
+    /usr/share/icons/Mint-X/status/scalable/network-wired-symbolic.svg \
+    -filter Lanczos -resize 18x18 \
+    -gravity center -background none -extent 22x22 \
+    /tmp/nm-device-wired.png
+```
+
+**Disconnected Ethernet:**
+
+```bash
+convert -background none -density 384 \
+    /usr/share/icons/Mint-X/status/scalable/network-wired-disconnected-symbolic.svg \
+    -filter Lanczos -resize 18x18 \
+    -gravity center -background none -extent 22x22 \
+    ~/.local/share/icons/MintPPC-Panel/apps/22/nm-no-connection.png
+```
+
+The connected icon was copied into the same custom icon directory.
+
+### Custom icon theme
+
+The following files were added to the `MintPPC-Panel` theme:
+
+```text
+apps/22/nm-device-wired.png
+apps/22/nm-no-connection.png
+```
+
+The theme's `index.theme` file was extended:
+
+```ini
+[Icon Theme]
+Name=MintPPC Panel
+Comment=Experimental light panel icons for MintPPC
+Inherits=Mint-X
+Directories=status/22,apps/22
+
+[status/22]
+Size=22
+Context=Status
+Type=Fixed
+
+[apps/22]
+Size=22
+Context=Applications
+Type=Fixed
+```
+
+The existing volume icons remain in `status/22`.
+
+The legacy NetworkManager filenames are retained so that `nm-applet` can locate the replacements through GTK's icon-theme mechanism.
+
+### Testing
+
+The icon theme was refreshed and `nm-applet` restarted in the PowerPC VM.
+
+The connected Ethernet icon changed successfully to the modern, light-grey design.
+
+The new icon is visually consistent with the dark panel and the custom volume icons.
+
+The disconnected Ethernet icon was created and its file presence verified, but its appearance during an actual network disconnection has not yet been tested.
+
+### Repository integration
+
+Both Ethernet PNG files were copied from the PowerPC VM to the ZenBook source repository:
+
+```text
+usr/share/icons/MintPPC-Panel/apps/22/nm-device-wired.png
+usr/share/icons/MintPPC-Panel/apps/22/nm-no-connection.png
+```
+
+The repository's `index.theme` was updated to register `apps/22`.
+
+The original NetworkManager and Mint-X icon files remain unchanged.
+
+These PNG files are derived from Mint-X artwork. Their GPL-3+ licensing and attribution should be included in `debian/copyright` before committing.
+
+### Remaining verification
+
+1. Test the disconnected Ethernet icon when a safe opportunity arises.
+2. Verify that the icons work when installed system-wide by the Debian package.
+3. Verify icon-theme inheritance and application compatibility after installation.
+4. Complete the Debian package integration test together with the changes from Experiment 3.
+
+No Debian package build was performed during this experiment.

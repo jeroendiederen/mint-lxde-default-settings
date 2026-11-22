@@ -9,9 +9,10 @@ License: GPL-2+
  in the `/usr/share/common-licenses/GPL-2' file.
 
 Files: usr/share/icons/MintPPC-Panel/status/22/*.png
+ usr/share/icons/MintPPC-Panel/apps/22/*.png
 Copyright: 2010-2014 Clement Lefebvre <root@linuxmint.com>
 License: GPL-3+
- These icons are derived from the Mint-X symbolic volume icons,
+ These icons are derived from the Mint-X symbolic volume and network icons,
  originally distributed by the Linux Mint project.
  .
  The original SVG icons were rendered using ImageMagick at 384 DPI,
