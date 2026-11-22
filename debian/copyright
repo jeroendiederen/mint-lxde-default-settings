@@ -9,7 +9,8 @@ License: GPL-2+
  in the `/usr/share/common-licenses/GPL-2' file.
 
 Files: usr/share/icons/MintPPC-Panel/status/22/*.png
- usr/share/icons/MintPPC-Panel/apps/22/*.png
+ usr/share/icons/MintPPC-Panel/apps/22/nm-device-wired.png
+ usr/share/icons/MintPPC-Panel/apps/22/nm-no-connection.png
 Copyright: 2010-2014 Clement Lefebvre <root@linuxmint.com>
 License: GPL-3+
  These icons are derived from the Mint-X symbolic volume and network icons,
@@ -24,3 +25,16 @@ License: GPL-3+
  On Debian systems, the complete text of the GNU General Public
  License version 3 can be found in
  /usr/share/common-licenses/GPL-3.
+
+Files: usr/share/icons/MintPPC-Panel/apps/22/system-software-update.png
+Copyright: 2015 Alexey Varfolomeev
+           2015 Sam Hewitt <sam@snwh.org>
+License: CC-BY-SA-4.0
+ This icon is derived from the Mint-Y security-low-symbolic icon.
+ The original SVG was rendered using ImageMagick at 384 DPI,
+ resized to 18x18 pixels using Lanczos filtering, and centered
+ on a transparent 22x22 pixel canvas.
+ .
+ Source: https://github.com/linuxmint/mint-y-icons
+ .
+ https://creativecommons.org/licenses/by-sa/4.0/

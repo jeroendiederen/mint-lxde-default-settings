@@ -539,3 +539,144 @@ These PNG files are derived from Mint-X artwork. Their GPL-3+ licensing and attr
 4. Complete the Debian package integration test together with the changes from Experiment 3.
 
 No Debian package build was performed during this experiment.
+
+## Experiment 5: Update indicator icons and clipboard manager exclusion
+
+### Objective
+
+Modernize the package update indicator icons to match the dark MintPPC LXDE panel.
+
+Replace the old, visually inconsistent update icons with light-grey artwork that remains clearly visible against the dark-grey panel.
+
+Additionally, remove unwanted clipboard managers Diodon and CopyQ from the default MintPPC installation without disabling other LXDE recommendations.
+
+### Environment
+
+- Desktop session: Mint-LXDE
+- Panel: LXPanel, 24 pixels high
+- Icon theme: MintPPC-Panel
+- Parent icon theme: Mint-X
+- Test environment: PowerPC Debian QEMU virtual machine
+- Package: `mint-lxde-default-settings`
+
+### Update indicator icons
+
+Two custom icons were added to the MintPPC-Panel icon theme:
+
+| Icon file | Purpose |
+|---|---|
+| `status/22/software-update-available.png` | Updates available (grey star) |
+| `apps/22/system-software-update.png` | Update indicator (grey shield) |
+
+The grey star was rendered from the Mint-X symbolic update-available artwork.
+
+The shield was derived from:
+
+`/usr/share/icons/Mint-Y/status/symbolic/security-low-symbolic.svg`
+
+The original Mint-Y icon is provided by `mint-y-icons`.
+
+### Icon generation
+
+Both icons use the same ImageMagick rendering procedure established in Experiment 3:
+
+1. Render the original SVG at 384 DPI.
+2. Resize the artwork to 18×18 pixels using Lanczos filtering.
+3. Center it on a transparent 22×22 pixel canvas.
+4. Save the PNG under the filename expected by the update indicator.
+
+The resulting files were verified as 22×22 pixel PNG images with grey artwork and alpha transparency.
+
+The shield conversion command was:
+
+```bash
+convert -background none -density 384 \
+    /usr/share/icons/Mint-Y/status/symbolic/security-low-symbolic.svg \
+    -filter Lanczos -resize 18x18 \
+    -gravity center -background none -extent 22x22 \
+    ~/.local/share/icons/MintPPC-Panel/apps/22/system-software-update.png
+```
+
+### Mint-X update-available icon
+
+The grey star was generated from the Mint-X symbolic update-available artwork:
+
+`/usr/share/icons/Mint-X/status/scalable/software-update-available-symbolic.svg`
+
+The conversion procedure was:
+
+```bash
+convert -background none -density 384 \
+    /usr/share/icons/Mint-X/status/scalable/software-update-available-symbolic.svg \
+    -filter Lanczos -resize 18x18 \
+    -gravity center -background none -extent 22x22 \
+    ~/.local/share/icons/MintPPC-Panel/status/22/software-update-available.png
+```
+
+### Clipboard manager investigation
+
+The orange Diodon panel icon was traced to the Diodon clipboard manager.
+
+The dependency chain was investigated using:
+
+```bash
+aptitude why diodon
+```
+
+The result was:
+
+```text
+lxde Recommends diodon | copyq
+```
+
+Neither Diodon nor CopyQ is wanted in the default MintPPC installation.
+
+The LXDE package recommends them as alternatives, rather than requiring them as hard dependencies.
+
+### APT preferences
+
+To prevent either clipboard manager from being installed through normal APT dependency resolution, the following file was added:
+
+`etc/apt/preferences.d/mintppc-no-clipboard.pref`
+
+Contents:
+
+```text
+Package: diodon copyq
+Pin: version *
+Pin-Priority: -1
+```
+
+This excludes both packages without disabling other LXDE recommendations.
+
+### Planned installer cleanup
+
+As an additional precaution, the Debian Installer preseed configuration will purge both packages using a late command:
+
+```bash
+in-target apt-get -y purge diodon copyq
+```
+
+This installer change is still pending integration and testing.
+
+The APT preferences file and installer purge serve complementary purposes: the purge removes packages selected during installation, while the negative APT priority prevents their subsequent installation through normal APT dependency resolution.
+
+### Testing and verification
+
+The following work has been completed:
+
+1. Both update icons were generated in the PowerPC VM.
+2. Their appearance was inspected in the running LXDE desktop.
+3. Both PNG files were copied to the ZenBook Git repository.
+4. Their dimensions were verified as 22×22 pixels.
+5. Their copyright and licensing information was added to `debian/copyright`.
+6. The APT preferences file was created.
+
+### Remaining work
+
+1. Complete the Debian package build.
+2. Install and test the package in the PowerPC VM.
+3. Verify both update icons after a fresh login.
+4. Verify that neither Diodon nor CopyQ is installed.
+5. Integrate the purge command into the installer preseed configuration.
+6. Test a fresh installation and confirm that other LXDE recommendations remain unaffected.
