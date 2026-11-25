@@ -1,5 +1,5 @@
 @setxkbmap -option terminate:ctrl_alt_bksp
-@lxpanel --profile Mint-LXDE
+@lxpanel --profile Mint-LXDE --gtk-theme MintPPC-Panel-Dark
 @xscreensaver -no-splash
 @pcmanfm --desktop
 @gnome-power-manager

@@ -680,3 +680,44 @@ The following work has been completed:
 4. Verify that neither Diodon nor CopyQ is installed.
 5. Integrate the purge command into the installer preseed configuration.
 6. Test a fresh installation and confirm that other LXDE recommendations remain unaffected.
+
+## MintPPC GTK theme configuration
+
+### Desktop theme
+
+The default GTK theme is Mint-X.
+
+The icon theme is MintPPC-Panel, which inherits from Mint-L.
+This provides modern Mint category and application icons while
+preserving the custom MintPPC panel status icons.
+
+### LXPanel dark menu
+
+LXPanel uses a separate GTK theme, MintPPC-Panel-Dark.
+
+This theme inherits from Mint-L-Dark and overrides the menu
+background colour to #303030.
+
+LXPanel is started with:
+
+    lxpanel --profile Mint-LXDE --gtk-theme MintPPC-Panel-Dark
+
+The --gtk-theme option is a MintPPC addition to LXPanel 0.11.1.
+It applies the GTK theme through GtkSettings within the LXPanel
+process.
+
+Unlike the GTK_THEME environment variable, this does not affect
+applications launched from the panel. They retain the normal
+desktop GTK theme.
+
+### Panel branding
+
+The LXPanel menu uses:
+
+    linuxmint-logo-ring-symbolic.svg
+
+### Desktop shortcuts
+
+The default Home and Computer desktop shortcuts are removed.
+Users can still access their home directory and filesystem
+through PCManFM.

@@ -1,0 +1,7 @@
+@import url("/usr/share/themes/Mint-L-Dark/gtk-3.0/gtk.css");
+
+/* Match the LXPanel background colour. */
+menu,
+.menu {
+    background-color: #303030;
+}

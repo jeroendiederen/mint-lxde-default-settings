@@ -1,3 +1,11 @@
+mint-lxde-default-settings (13.0.1) UNRELEASED; urgency=medium
+
+  * Modernize LXDE panel appearance with Mint-L icons, a symbolic Mint
+    menu logo and an isolated dark GTK theme for LXPanel. Remove default
+    Home and Computer desktop shortcuts.
+
+ -- Jeroen Diederen <jjhdiederen@zonnet.nl>  Wed, 25 Nov 2026 11:11:36 +0700
+
 mint-lxde-default-settings (13.0.0) unstable; urgency=medium
 
   * updated gtk-3.0 settings in /etc/skel/.config

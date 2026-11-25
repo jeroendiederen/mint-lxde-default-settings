@@ -22,7 +22,7 @@ Global {
 Plugin {
   type=menu
   Config {
-    image=/usr/share/icons/hicolor/scalable/apps/linuxmint-logo-filled-ring.svg
+    image=/usr/share/icons/hicolor/scalable/apps/linuxmint-logo-ring-symbolic.svg
     system {
     }
     item {

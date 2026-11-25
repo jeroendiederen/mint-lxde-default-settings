@@ -1,7 +1,7 @@
 [Icon Theme]
 Name=MintPPC Panel
 Comment=Experimental light panel icons for MintPPC
-Inherits=Mint-X
+Inherits=Mint-L
 Directories=status/22,apps/22
 
 [status/22]
