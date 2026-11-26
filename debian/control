@@ -6,6 +6,6 @@ Build-Depends: debhelper (>= 5.0.0)
 Standards-Version: 3.8.4
 
 Package: mint-lxde-default-settings
-Depends: pcmanfm, lxpanel, mint-artwork-lxde, gmrun, mint-artwork, mint-themes, mint-l-theme, mint-l-icons
+Depends: pcmanfm, lxpanel (>= 0.11.1-3+mintppc1), mint-artwork-lxde, gmrun, mint-artwork, mint-themes, mint-l-theme, mint-l-icons
 Architecture: all 
 Description: This Package contains the default system settings for Linux Mint LXDE Edition.

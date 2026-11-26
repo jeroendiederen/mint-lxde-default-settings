@@ -721,3 +721,108 @@ The LXPanel menu uses:
 The default Home and Computer desktop shortcuts are removed.
 Users can still access their home directory and filesystem
 through PCManFM.
+
+## Implementation status — 26 November 2026
+
+This section supersedes the historical pending tasks in the
+previous experiments where applicable.
+
+### LXPanel package dependency
+
+The mint-lxde-default-settings package requires:
+
+    lxpanel (>= 0.11.1-3+mintppc1)
+
+This version introduces the process-local --gtk-theme option
+required by the Mint-LXDE session.
+
+The mintsystem package provides APT pinning through:
+
+    /etc/apt/preferences.d/99-mintppc.pref
+
+LXPanel packages originating from mintppc.nl receive priority
+1001, protecting the customized packages against replacement
+by unpatched Debian packages.
+
+### System tray background refresh
+
+A problem was discovered where embedded system tray icons
+acquired black backgrounds after dismissing XScreenSaver.
+
+Restarting LXPanel or changing the panel height restored the
+correct backgrounds. Running xrefresh did not resolve the issue.
+
+Monitoring the panel window with xev confirmed that visibility
+notification events were received during screensaver activation
+and dismissal.
+
+A patch was developed to refresh panel and embedded system tray
+backgrounds when the panel becomes visible again after being
+fully obscured.
+
+The patch reuses the existing _panel_queue_update_background()
+function and introduces no polling or additional dependencies.
+
+The fix is included in LXPanel 0.11.1-3+mintppc2.
+
+Successful runtime testing was performed on MintPPC32 in QEMU
+with both animated and blank screensaver modes.
+
+The package was also successfully built for ppc64.
+Runtime testing on ppc64 and physical hardware remains pending.
+
+### Upstream contributions
+
+Both LXPanel improvements were submitted upstream as independent
+pull requests on 26 November 2026:
+
+- https://github.com/lxde/lxpanel/pull/126
+  Add optional --gtk-theme command-line argument.
+
+- https://github.com/lxde/lxpanel/pull/127
+  Refresh panel backgrounds when becoming visible again.
+
+Neither contribution contains MintPPC-specific theme names or
+configuration requirements.
+
+### Installer integration
+
+The MintPPC32 and MintPPC64 preseed configurations now include
+the removal of Diodon and CopyQ.
+
+The installer also removes the existing default-display-manager
+file before selecting and reconfiguring LXDM.
+
+This prevents the previous display manager selection from
+overriding the intended LXDM configuration.
+
+### Installation verification
+
+A fresh MintPPC32 installation in QEMU successfully reached
+the Mint-LXDE desktop using LXDM.
+
+The modernized panel, dark menu, light application theme and
+custom system tray icons were verified.
+
+The system tray background refresh fix was subsequently
+installed and tested successfully.
+
+A fresh MintPPC64 installation is currently in progress.
+
+### Remaining work
+
+- Complete fresh MintPPC64 installation verification.
+- Verify APT pinning on both fresh installations.
+- Test the modernized desktop on physical PowerPC hardware.
+- Test system tray background refresh on physical hardware.
+- Remove the nonfunctional native LXPanel batt plugin from
+  both default panel configurations after reviewing hardware
+  compatibility.
+- Inspect and modernize mac-battery-applet to match the new
+  panel colours while preserving battery detection functionality.
+- Test mac-battery-applet on the PowerBook G4.
+- Follow the two upstream LXPanel pull requests.
+
+The experimental BackgroundColor change to the native batt
+plugin was reverted. Battery applet modernization is deferred
+until physical hardware testing.
